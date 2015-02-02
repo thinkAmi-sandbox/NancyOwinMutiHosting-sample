@@ -1,0 +1,1 @@
+web: mono OwinSelfHosting.exe $PORT
