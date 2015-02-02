@@ -77,7 +77,24 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <PropertyGroup>
+  
+    <!-- add for mono -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <CustomCommands>
+      <!-- Custom commands for Xamarin -->
+      <CustomCommands>
+        <Command type="AfterBuild" command="cp -f &quot;$(SolutionDir)/packages/Nancy.Viewengines.Razor.0.17.1/BuildProviders/Nancy.ViewEngines.Razor.BuildProviders.dll&quot; &quot;$(ProjectDir)/bin/&quot;" />
+        <Command type="AfterBuild" command="cp -f &quot;$(SolutionDir)/packages/Nancy.Viewengines.Razor.0.17.1/lib/Net40/Nancy.ViewEngines.Razor.dll&quot; &quot;$(ProjectDir)/bin/&quot;" />
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <!-- add end -->
+  
+  <!-- change for mono -->
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+  <!-- <PropertyGroup> -->
+  <!-- change end -->
+
     <PostBuildEvent>
 if $(ConfigurationName) == Debug (
 xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.0.0\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin\"
